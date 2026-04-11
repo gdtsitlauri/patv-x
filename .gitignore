@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+venv/
+env/
+.env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Dataset videos (large binary files)
+dataset/faceforensics/authentic/*.mp4
+dataset/faceforensics/ai/*.mp4
+dataset/faceforensics/faceswap/*.mp4
+
+# Pipeline intermediate results (keep only final)
+pipeline_results_v*/
+pipeline_results_quick*/
+
+# Claude Code internal
+.claude/
+
+# Intermediate pipeline reports (keep only _fixed.json)
+pipeline_results_final/pipeline_report.json
+
+# Logs
+*.log

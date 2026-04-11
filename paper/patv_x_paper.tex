@@ -1,0 +1,70 @@
+% PATV-X: Physics-Aware Temporal Video Explainability
+% George David Tsitlauri
+% (add your affiliation/email if desired)
+% Research conducted in 2026
+
+\documentclass[conference]{IEEEtran}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{multirow}
+
+\title{PATV-X: Physics-Aware Temporal Video Explainability Suite\\\vspace{0.5em}\large{Research Year: 2026}}
+
+\author{George David Tsitlauri}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+PATV-X is a modular research suite for explainable video anomaly detection, focusing on physics-aware, temporal, and semantic consistency metrics. It supports multi-level evaluation, ablation studies, and robust benchmarking for video forensics and deepfake detection. This paper presents the architecture, methodology, experimental evaluation, and key findings of PATV-X. All research and experiments were conducted in 2026.
+\end{abstract}
+
+\section{Introduction}
+Video forensics and deepfake detection require explainable, robust, and physics-aware metrics. PATV-X provides a unified framework for evaluating temporal, semantic, and physical consistency in video data, supporting both research and practical deployment.
+
+\section{Related Work}
+% Add references to video forensics, deepfake detection, explainable AI, temporal consistency, physics-based metrics, etc.
+Recent work in video forensics and explainable AI highlights the need for multi-level, interpretable metrics. PATV-X builds on these by integrating temporal, semantic, and physics-based analysis.
+
+\section{System Architecture}
+\subsection{Core Components}
+\begin{itemize}
+    \item \textbf{Feature Extraction:} Temporal, semantic, and physics-based features
+    \item \textbf{Ablation Framework:} Modular ablation studies for metric impact
+    \item \textbf{Benchmarking Pipelines:} Automated scripts for reproducible evaluation
+    \item \textbf{Multi-Level Metrics:} L1 (motion/physics), L2 (object/scene), L3 (semantic/face/context)
+    \item \textbf{Visualization:} Explainable outputs and reporting
+\end{itemize}
+
+\section{Methodology}
+\subsection{Evaluation Protocol}
+Experiments follow a rigorous protocol: multi-dataset evaluation, ablation, statistical analysis, and reporting of all key metrics. All scripts are reproducible and open-source.
+
+\subsection{Metrics}
+Key metrics include semantic score, color drift, edge stability, texture consistency, physics score, and anomaly detection rates.
+
+\section{Experimental Evaluation}
+\subsection{Datasets}
+Experiments cover synthetic and real video datasets, with pipelines for ablation and benchmarking.
+
+\subsection{Results}
+% Summarize key results, e.g., ablation impact, metric robustness, explainability, etc.
+PATV-X demonstrates robust detection of temporal and semantic inconsistencies, interpretable metric outputs, and effective ablation analysis.
+
+\section{Limitations and Future Work}
+Current limitations include limited real-world deployment and focus on academic datasets. Future work includes operational deployment, adversarial robustness, and integration with new video forensics benchmarks.
+
+\section{Conclusion}
+PATV-X provides a reproducible, extensible platform for explainable video anomaly detection, supporting robust benchmarking and practical extensions.
+
+\section*{Acknowledgments}
+% Add if needed
+
+\bibliographystyle{IEEEtran}
+\bibliography{patv_x_refs}
+
+\end{document}
