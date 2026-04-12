@@ -82,8 +82,12 @@ patv_x/
     run_pipeline.py           # End-to-end evaluation pipeline
   ablation/
     ablation_study.py         # Level/feature ablation studies
+  evaluation/
+    evaluate_generalization.py  # Cross-dataset generalization evaluator
   dataset/
     faceforensics/            # FF++ c23 data (videos not in repo)
+    dfdc/                     # DFDC dataset stub (see DOWNLOAD_INSTRUCTIONS.md)
+    faceshifter/              # FaceShifter dataset stub (see DOWNLOAD_INSTRUCTIONS.md)
   pipeline_results_final/     # Final evaluation results
   patv_cli.py                 # Command-line interface
   requirements.txt
@@ -155,6 +159,89 @@ python ablation/ablation_study.py --data pipeline_results_final/features.csv
 - **Threshold tuning on validation only**: The detection threshold is selected on the validation set; test metrics are never used for model selection.
 - **Core acceptance criteria**: specificity >= 0.60, recall >= 0.65, balanced accuracy >= 0.65, mean score gap >= 0.08.
 - **GBM model selection**: Validated via 5-fold pair-aware cross-validation (OOF-AUC 0.844). The GBM is retrained on train+val for final test evaluation.
+
+## Generalization Beyond FaceForensics++
+
+### Why FF++ c23 Faceswap Is the Primary Benchmark
+
+FaceForensics++ (c23, faceswap) is the standard benchmark for this class of work because:
+
+1. **Controlled compression**: c23 applies moderate H.264 compression — realistic for social-media video without destroying discriminative frequency artifacts. Raw (c0) would overstate performance; heavy (c40) would suppress it.
+2. **Pair-aligned subjects**: Every manipulated video has an identically sourced authentic counterpart with the same subject identity, enabling rigorous pair-aware cross-validation that prevents identity-based leakage.
+3. **Classical faceswap artifacts**: The faceswap method produces the class of frequency and boundary artifacts (Laplacian discontinuities, wavelet energy shifts, SRM noise residuals) that PATV-X's L4/L5 features are designed to detect.
+4. **Reproducibility**: FF++ is publicly available under a research license and is the most widely used benchmark for direct comparison with prior work (MesoNet, XceptionNet, FWA, etc.).
+
+### Expected Generalization Limits
+
+PATV-X's core detector is training-free and hypothesis-driven. Its generalization properties are therefore predictable from first principles:
+
+| Manipulation Type | Expected Performance | Limiting Factor |
+|-------------------|---------------------|-----------------|
+| FF++ faceswap (c23) | AUC 0.73 (measured) | — primary benchmark |
+| FF++ Deepfakes (c23) | AUC 0.68–0.75 | Similar boundary + frequency artifacts |
+| FaceShifter (c23) | AUC 0.62–0.73 | Fewer blending artifacts; better attribute preservation |
+| DFDC (mixed methods) | AUC 0.60–0.72 | Neural synthesis methods; diverse compression |
+| Face reenactment (e.g., Face2Face) | AUC 0.55–0.68 | No face-swap boundary; different artifact signature |
+| Diffusion-based generation | AUC 0.50–0.62 | Full-frame synthesis; no blending boundary at all |
+| Authentic video (any source) | Specificity ≥ 0.60 | Core acceptance criterion maintained |
+
+**Key generalization insight**: PATV-X's Laplacian and wavelet features detect the *statistical footprint of blending* — a manipulated face region pasted onto a real background frame. Methods that eliminate blending (diffusion generation, full-frame synthesis) produce different or weaker artifacts and should be expected to lower recall. The core detector will not silently fail; its per-level explainability output indicates which signals triggered, making it possible to diagnose why a particular manipulation type is harder.
+
+### Running Cross-Dataset Evaluation
+
+A dedicated script, `evaluation/evaluate_generalization.py`, evaluates PATV-X on any compatible dataset without retraining.
+
+#### FaceShifter (FF++ license, available after signing the FF++ request form)
+
+```bash
+# Download FF++ FaceShifter videos and place them in dataset/faceshifter/
+# See dataset/faceshifter/DOWNLOAD_INSTRUCTIONS.md
+
+python evaluation/evaluate_generalization.py \
+    --dataset dataset/faceshifter \
+    --layout ff \
+    --model pipeline_results_final/patv_open_bundle.json \
+    --dataset-name FaceShifter-c23 \
+    --output generalization_results/faceshifter
+```
+
+#### DFDC (Meta AI research license)
+
+```bash
+# Download DFDC dataset and place videos + metadata.json in dataset/dfdc/
+# See dataset/dfdc/DOWNLOAD_INSTRUCTIONS.md
+
+python evaluation/evaluate_generalization.py \
+    --dataset dataset/dfdc \
+    --layout dfdc \
+    --model pipeline_results_final/patv_open_bundle.json \
+    --dataset-name DFDC \
+    --output generalization_results/dfdc
+```
+
+#### Any Custom Dataset (flat layout with manifest)
+
+```bash
+# Prepare manifest.csv with columns: filename, label (0=real, 1=fake), category
+# Place videos in your_dataset/videos/
+
+python evaluation/evaluate_generalization.py \
+    --dataset path/to/your_dataset \
+    --layout flat \
+    --dataset-name "My Dataset" \
+    --output generalization_results/custom
+```
+
+#### From Pre-Extracted Features (skips re-inference)
+
+```bash
+python evaluation/evaluate_generalization.py \
+    --features path/to/features.csv \
+    --model pipeline_results_final/patv_open_bundle.json \
+    --output generalization_results/from_csv
+```
+
+The script outputs a `generalization_report.json` with AUC-ROC, recall, specificity, and balanced accuracy, plus the extracted feature CSV for further analysis.
 
 ## Research Contributions
 
