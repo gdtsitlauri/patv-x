@@ -1,4 +1,9 @@
 # PATV-X: Training-Free Explainable Deepfake Detection via Multi-Scale Frequency Forensics
+
+**Author:** George David Tsitlauri  
+**Affiliation:** Dept. of Informatics & Telecommunications, University of Thessaly, Greece  
+**Contact:** gdtsitlauri@gmail.com  
+**Year:** 2026
 ---
 **Research Paper:**
 This project is accompanied by a full research paper describing the architecture, methodology, and experimental results of PATV-X. The research and all experiments were conducted in 2026.
@@ -256,3 +261,15 @@ The script outputs a `generalization_report.json` with AUC-ROC, recall, specific
 ## License
 
 MIT License. See [LICENSE](LICENSE).
+
+## Citation
+
+```bibtex
+@misc{tsitlauri2026patvx,
+  author = {George David Tsitlauri},
+  title  = {PATV-X: Training-Free Explainable Deepfake Detection via Multi-Scale Frequency Forensics},
+  year   = {2026},
+  institution = {University of Thessaly},
+  email  = {gdtsitlauri@gmail.com}
+}
+```
