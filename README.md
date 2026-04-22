@@ -1,16 +1,20 @@
 # PATV-X: Training-Free Explainable Deepfake Detection via Multi-Scale Frequency Forensics
 
-**Author:** George David Tsitlauri  
-**Affiliation:** Dept. of Informatics & Telecommunications, University of Thessaly, Greece  
-**Contact:** gdtsitlauri@gmail.com  
-**Year:** 2026
----
 **Research Paper:**
 This project is accompanied by a full research paper describing the architecture, methodology, and experimental results of PATV-X. The research and all experiments were conducted in 2026.
 
 You can find the paper in [paper/patv_x_paper.tex](paper/patv_x_paper.tex).
----
 PATV-X is a novel, training-free, explainable face-centric temporal video forensics system for detecting face-swapped and AI-generated videos. It achieves **AUC 0.83** on FaceForensics++ (c23, faceswap) without any training on deepfake data.
+
+
+## Project Metadata
+
+| Field | Value |
+| --- | --- |
+| Author | George David Tsitlauri |
+| Affiliation | Dept. of Informatics & Telecommunications, University of Thessaly, Greece |
+| Contact | gdtsitlauri@gmail.com |
+| Year | 2026 |
 
 ## Key Results
 
@@ -258,18 +262,4 @@ The script outputs a `generalization_report.json` with AUC-ROC, recall, specific
 
 4. **Explainable Detection**: Every prediction includes per-level scores and human-readable explanations of which signal families triggered and why.
 
-## License
 
-MIT License. See [LICENSE](LICENSE).
-
-## Citation
-
-```bibtex
-@misc{tsitlauri2026patvx,
-  author = {George David Tsitlauri},
-  title  = {PATV-X: Training-Free Explainable Deepfake Detection via Multi-Scale Frequency Forensics},
-  year   = {2026},
-  institution = {University of Thessaly},
-  email  = {gdtsitlauri@gmail.com}
-}
-```
