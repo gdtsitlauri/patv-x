@@ -1,73 +1,62 @@
-% PATV-X: Physics-Aware Temporal Video Explainability
-% George David Tsitlauri
-% (add your affiliation/email if desired)
-% Research conducted in 2026
-
 \documentclass[conference]{IEEEtran}
-\usepackage{graphicx}
 \usepackage{amsmath}
-\usepackage{hyperref}
-\usepackage{listings}
 \usepackage{booktabs}
-\usepackage{multirow}
+\usepackage{graphicx}
 
-\title{PATV-X: Physics-Aware Temporal Video Explainability Suite\\\vspace{0.5em}\large{Research Year: 2026}}
+\title{PATV-X: Training-Free Explainable Deepfake Detection via Multi-Scale Frequency Forensics}
 
 \author{\IEEEauthorblockN{George David Tsitlauri}
-\IEEEauthorblockA{\textit{Dept. of Informatics \& Telecommunications}\\
-\textit{University of Thessaly, Greece}\\
-gdtsitlauri@gmail.com}}
+\IEEEauthorblockA{
+gdtsitlauri@gmail.com\\
+gdtsitlauri.dev\\
+github.com/gdtsitlauri
+}}
 
 \begin{document}
-
 \maketitle
 
 \begin{abstract}
-PATV-X is a modular research suite for explainable video anomaly detection, focusing on physics-aware, temporal, and semantic consistency metrics. It supports multi-level evaluation, ablation studies, and robust benchmarking for video forensics and deepfake detection. This paper presents the architecture, methodology, experimental evaluation, and key findings of PATV-X. All research and experiments were conducted in 2026.
+PATV-X is an explainable video-forensics repository centered on training-free temporal and frequency-domain cues for face-centric deepfake detection. The core detector operates without training on deepfake labels and is evaluated on a committed 200-video FaceForensics++ faceswap protocol. In the current artifact snapshot, the raw training-free detector reaches an AUC of 0.7325 with 0.70 balanced accuracy, while a learned gradient-boosting head trained on the extracted forensic features reaches an AUC of 0.83 with higher specificity but lower recall. The repository therefore supports a credible research story around interpretable frequency forensics and score fusion, with clear separation between the training-free core method and the optional learned extension.
 \end{abstract}
 
 \section{Introduction}
-Video forensics and deepfake detection require explainable, robust, and physics-aware metrics. PATV-X provides a unified framework for evaluating temporal, semantic, and physical consistency in video data, supporting both research and practical deployment.
+Deepfake detection systems are often accurate but opaque, or explainable but weak. PATV-X studies a middle ground: structured, interpretable forensic features combined with a transparent evaluation pipeline and optional lightweight learned heads.
 
-\section{Related Work}
-% Add references to video forensics, deepfake detection, explainable AI, temporal consistency, physics-based metrics, etc.
-Recent work in video forensics and explainable AI highlights the need for multi-level, interpretable metrics. PATV-X builds on these by integrating temporal, semantic, and physics-based analysis.
-
-\section{System Architecture}
-\subsection{Core Components}
+\section{Repository Scope}
+The repository includes:
 \begin{itemize}
-    \item \textbf{Feature Extraction:} Temporal, semantic, and physics-based features
-    \item \textbf{Ablation Framework:} Modular ablation studies for metric impact
-    \item \textbf{Benchmarking Pipelines:} Automated scripts for reproducible evaluation
-    \item \textbf{Multi-Level Metrics:} L1 (motion/physics), L2 (object/scene), L3 (semantic/face/context)
-    \item \textbf{Visualization:} Explainable outputs and reporting
+\item a training-free detector with multiple analysis levels,
+\item feature extraction and pipeline tooling,
+\item optional learned heads built on the extracted features,
+\item committed evaluation artifacts under \texttt{pipeline\_results\_final/}.
 \end{itemize}
 
-\section{Methodology}
-\subsection{Evaluation Protocol}
-Experiments follow a rigorous protocol: multi-dataset evaluation, ablation, statistical analysis, and reporting of all key metrics. All scripts are reproducible and open-source.
+\section{Method}
+PATV-X combines several evidence channels, including residual motion behavior, boundary artifacts, semantic consistency checks, and multi-scale frequency forensics. The frequency layer is the most distinctive part of the repository and includes Laplacian, wavelet, SRM, and block-consistency descriptors. Final scoring is driven by an explicit weighted fusion rule rather than by an end-to-end opaque classifier.
 
-\subsection{Metrics}
-Key metrics include semantic score, color drift, edge stability, texture consistency, physics score, and anomaly detection rates.
+\section{Experimental Setup}
+The committed evaluation pipeline uses 200 videos from a FaceForensics++ faceswap setup (100 authentic, 100 manipulated) with pair-aware splitting to reduce identity leakage. Threshold selection is performed on validation data only, and the final report distinguishes between:
+\begin{itemize}
+\item the raw training-free detector,
+\item an optional learned core head,
+\item an open track with learned models on the extracted feature table.
+\end{itemize}
 
-\section{Experimental Evaluation}
-\subsection{Datasets}
-Experiments cover synthetic and real video datasets, with pipelines for ablation and benchmarking.
+\section{Current Results}
+The main committed results come from \texttt{pipeline\_results\_final/pipeline\_report\_fixed.json}. The raw detector reaches AUC 0.7325, recall 0.80, specificity 0.60, and balanced accuracy 0.70 on the held-out test split. The learned core head reaches AUC 0.83, specificity 0.85, recall 0.60, and balanced accuracy 0.725.
 
-\subsection{Results}
-% Summarize key results, e.g., ablation impact, metric robustness, explainability, etc.
-PATV-X demonstrates robust detection of temporal and semantic inconsistencies, interpretable metric outputs, and effective ablation analysis.
+These numbers support two restrained conclusions:
+\begin{enumerate}
+\item the training-free detector is credible and nontrivial,
+\item the learned head improves ranking quality and specificity, but it changes the character of the method from fully training-free inference to feature-level supervised calibration.
+\end{enumerate}
 
-\section{Limitations and Future Work}
-Current limitations include limited real-world deployment and focus on academic datasets. Future work includes operational deployment, adversarial robustness, and integration with new video forensics benchmarks.
+\section{Interpretation Boundary}
+PATV-X should be presented as a serious explainable forensics repository with a validated FaceForensics++ protocol. It should not be described as already proven across all deepfake families or video domains, because the strongest committed evidence remains tied to the current dataset and split design.
 
 \section{Conclusion}
-PATV-X provides a reproducible, extensible platform for explainable video anomaly detection, supporting robust benchmarking and practical extensions.
-
-\section*{Acknowledgments}
-% Add if needed
+PATV-X is technically implemented, explainable, and backed by real held-out metrics. Its strongest contribution is the repository's transparent frequency-forensics pipeline and the clear distinction it maintains between a training-free core detector and an optional learned extension.
 
 \bibliographystyle{IEEEtran}
 \bibliography{patv_x_refs}
-
 \end{document}
